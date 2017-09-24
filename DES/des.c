@@ -18,7 +18,7 @@
 #define SBOX_COLUMN_LENGTH 4
 #define NO_OF_SBOX_OPERATIONS 16
 
-void DES(int *data,int data_length,int *key,int cipher[]);
+void DES(int *data,int *key,int cipher[]);
 void initial_permutation_key(int key[]);
 
 void displayIntArray(int *array, int size);
@@ -146,11 +146,15 @@ int main(int argc, char **argv) {
 	int message[64]={0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,0,1,0,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,0,1,1,1,1};
 	int key[64]={0,0,0,1,0,0,1,1,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,0,1,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1};
 	int cipher[64];
-	DES(message,64,key,cipher);
+	printf("Original message: \n");
+	displayIntArray(message,DATA_BLOCK_LENGTH);
+	DES(message,key,cipher);
+	printf("DES encrypted message: \n");
+	displayIntArray(cipher,DATA_BLOCK_LENGTH);
 	return 0;
 }
 
-void DES(int *data,int data_length,int *key,int *cipher)
+void DES(int *data,int *key,int *cipher)
 {
 	/*Step 1: Create 16 subkeys, each of which is 48-bits long.*/
 	initial_permutation_key(key);
@@ -167,9 +171,6 @@ void DES(int *data,int data_length,int *key,int *cipher)
 
 	/* Step 4: Apply a final permutation IP inverse */
 	apply_final_message_permutation(cipher);
-
-	printf("FINALLY ENCTYPTED : \n");
-	displayIntArray(cipher,64);
 
 }
 
