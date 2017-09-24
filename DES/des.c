@@ -36,7 +36,7 @@ void int_to_bin_digit(unsigned int in, int count, int* out,int *index);
 void XOR_function(int arr1[], int arr2[][SUB_DATA_BLOCK_LENGTH], int index, int result[][SUB_DATA_BLOCK_LENGTH],int index2);
 
 void DES_decrypt(int *cipher,int *key,int *data);
-void initial_permutation_key2(int key[]);
+void initial_permutation_key_decrypt(int key[]);
 
 //PC1
 int initial_key_permutaion[] = {57, 49,  41, 33,  25,  17,  9,
@@ -148,15 +148,17 @@ int final_message_permutation[] =  {40,  8, 48, 16, 56, 24, 64, 32,
 
 int main(int argc, char **argv) {
 	int message[64]={0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,0,1,0,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,0,1,1,1,1};
-	int key[64]={0,0,0,1,0,0,1,1,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,0,1,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1};
+	int key_encrypt[64]={0,0,0,1,0,0,1,1,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,0,1,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1};
+	int key_decrypt[64]={0,0,0,1,0,0,1,1,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,0,1,1,0,1,1,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1};
 	int cipher[64];
 	printf("Original message: \n");
 	displayIntArray(message,DATA_BLOCK_LENGTH);
-	DES(message,key,cipher);
+
+	DES(message,key_encrypt,cipher);
 	printf("DES encrypted message: \n");
 	displayIntArray(cipher,DATA_BLOCK_LENGTH);
 
-	DES_decrypt(cipher,key,message);
+	DES_decrypt(cipher,key_decrypt,message);
 	printf("DES decrypted message: \n");
 	displayIntArray(message,DATA_BLOCK_LENGTH);
 	return 0;
@@ -185,7 +187,7 @@ void DES(int *data,int *key,int *cipher)
 void DES_decrypt(int *cipher,int *key,int *data)
 {
 	/*Step 0: Create 16 subkeys, each of which is 48-bits long.*/
-	initial_permutation_key2(key);
+	initial_permutation_key_decrypt(key);
 
 
 	/* Step 1: Apply a final permutation IP inverse */
@@ -507,35 +509,300 @@ void initial_permutation_key(int key[]){
 
 }
 
-void initial_permutation_key2(int key[]){
-	int temp_key[48]={0};
-	int start=0;
-	int end=15;
-	while(end >= start ){
-		memcpy(temp_key,sub_key[start],SUB_KEY_LENGTH*sizeof(int));
-		memcpy(sub_key[start],sub_key[end],SUB_KEY_LENGTH*sizeof(int));
-		memcpy(sub_key[end],temp_key,SUB_KEY_LENGTH*sizeof(int));
-		start++;
-		end--;
+void initial_permutation_key_decrypt(int key[]){
+	int temp_key[INITIAL_KEY_LENGTH];
+	int C0[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D0[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C1[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D1[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C2[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D2[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C3[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D3[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C4[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D4[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C5[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D5[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C6[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D6[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C7[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D7[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C8[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D8[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C9[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D9[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C10[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D10[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C11[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D11[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C12[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D12[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C13[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D13[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C14[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D14[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C15[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D15[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	int C16[SUB_KEY_PERMUTED_LENGTH]={0};
+	int D16[SUB_KEY_PERMUTED_LENGTH]={0};
+
+	memcpy(temp_key,key,sizeof(int)*INITIAL_KEY_LENGTH);
+	printf("Original 64 bit key: \n");
+	displayIntArray(temp_key,INITIAL_KEY_LENGTH);
+
+	/* Apply the key permutation to create 56 bit key */
+	for(int i=0;i<PERMUTED_KEY_LENGTH;i++){
+		key[i]=temp_key[initial_key_permutaion[i]-1];
 	}
 
-	printf("Final 16 Subkeys For Decryption: \n");
-		displayIntArray(sub_key[0],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[1],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[2],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[3],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[4],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[5],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[6],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[7],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[8],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[9],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[10],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[11],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[12],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[13],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[14],SUB_KEY_LENGTH);
-		displayIntArray(sub_key[15],SUB_KEY_LENGTH);
+	printf("Permuted Key: \n");
+	displayIntArray(key,PERMUTED_KEY_LENGTH);
+
+	/* Get Left and right part of permuted key*/
+	memcpy(C0,key,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D0,key+SUB_KEY_PERMUTED_LENGTH,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+
+	printf("C0: \n");
+	displayIntArray(C0,SUB_KEY_PERMUTED_LENGTH);
+	printf("D0: \n");
+	displayIntArray(D0,SUB_KEY_PERMUTED_LENGTH);
+
+	/* Create 16 sub keys by left shifting prev subkey according to left_shift_table */
+	memcpy(C1,C0,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D1,D0,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C1,SUB_KEY_PERMUTED_LENGTH,left_shift_table[0]);
+	rotate_array(D1,SUB_KEY_PERMUTED_LENGTH,left_shift_table[0]);
+
+	memcpy(C2,C1,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D2,D1,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C2,SUB_KEY_PERMUTED_LENGTH,left_shift_table[1]);
+	rotate_array(D2,SUB_KEY_PERMUTED_LENGTH,left_shift_table[1]);
+
+	memcpy(C3,C2,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D3,D2,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C3,SUB_KEY_PERMUTED_LENGTH,left_shift_table[2]);
+	rotate_array(D3,SUB_KEY_PERMUTED_LENGTH,left_shift_table[2]);
+
+	memcpy(C4,C3,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D4,D3,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C4,SUB_KEY_PERMUTED_LENGTH,left_shift_table[3]);
+	rotate_array(D4,SUB_KEY_PERMUTED_LENGTH,left_shift_table[3]);
+
+	memcpy(C5,C4,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D5,D4,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C5,SUB_KEY_PERMUTED_LENGTH,left_shift_table[4]);
+	rotate_array(D5,SUB_KEY_PERMUTED_LENGTH,left_shift_table[4]);
+
+	memcpy(C6,C5,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D6,D5,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C6,SUB_KEY_PERMUTED_LENGTH,left_shift_table[5]);
+	rotate_array(D6,SUB_KEY_PERMUTED_LENGTH,left_shift_table[5]);
+
+	memcpy(C7,C6,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D7,D6,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C7,SUB_KEY_PERMUTED_LENGTH,left_shift_table[6]);
+	rotate_array(D7,SUB_KEY_PERMUTED_LENGTH,left_shift_table[6]);
+
+	memcpy(C8,C7,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D8,D7,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C8,SUB_KEY_PERMUTED_LENGTH,left_shift_table[7]);
+	rotate_array(D8,SUB_KEY_PERMUTED_LENGTH,left_shift_table[7]);
+
+	memcpy(C9,C8,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D9,D8,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C9,SUB_KEY_PERMUTED_LENGTH,left_shift_table[8]);
+	rotate_array(D9,SUB_KEY_PERMUTED_LENGTH,left_shift_table[8]);
+
+	memcpy(C10,C9,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D10,D9,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C10,SUB_KEY_PERMUTED_LENGTH,left_shift_table[9]);
+	rotate_array(D10,SUB_KEY_PERMUTED_LENGTH,left_shift_table[9]);
+
+	memcpy(C11,C10,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D11,D10,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C11,SUB_KEY_PERMUTED_LENGTH,left_shift_table[10]);
+	rotate_array(D11,SUB_KEY_PERMUTED_LENGTH,left_shift_table[10]);
+
+	memcpy(C12,C11,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D12,D11,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C12,SUB_KEY_PERMUTED_LENGTH,left_shift_table[11]);
+	rotate_array(D12,SUB_KEY_PERMUTED_LENGTH,left_shift_table[11]);
+
+	memcpy(C13,C12,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D13,D12,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C13,SUB_KEY_PERMUTED_LENGTH,left_shift_table[12]);
+	rotate_array(D13,SUB_KEY_PERMUTED_LENGTH,left_shift_table[12]);
+
+	memcpy(C14,C13,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D14,D13,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C14,SUB_KEY_PERMUTED_LENGTH,left_shift_table[13]);
+	rotate_array(D14,SUB_KEY_PERMUTED_LENGTH,left_shift_table[13]);
+
+	memcpy(C15,C14,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D15,D14,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C15,SUB_KEY_PERMUTED_LENGTH,left_shift_table[14]);
+	rotate_array(D15,SUB_KEY_PERMUTED_LENGTH,left_shift_table[14]);
+
+	memcpy(C16,C15,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(D16,D15,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	rotate_array(C16,SUB_KEY_PERMUTED_LENGTH,left_shift_table[15]);
+	rotate_array(D16,SUB_KEY_PERMUTED_LENGTH,left_shift_table[15]);
+
+	printf("C16: \n");
+	displayIntArray(C16,SUB_KEY_PERMUTED_LENGTH);
+	printf("D16: \n");
+	displayIntArray(D16,SUB_KEY_PERMUTED_LENGTH);
+
+	/* Apply permutation table 2 on each of the CnDn pair of keys to create final 16 subkeys*/
+	//create temp array by concatinating Cn and Dn
+	int temp_subkey[SUB_KEY_LENGTH]={0};
+
+	/* Apply PC-2 in C1,D1 to generate 48 bit subkey 16 (for Decryption its opposite of encryption) */
+	memcpy(temp_subkey,C1,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D1,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+		sub_key[15][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 2 */
+	memcpy(temp_subkey,C2,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D2,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[14][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 3 */
+	memcpy(temp_subkey,C3,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D3,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[13][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 4 */
+	memcpy(temp_subkey,C4,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D4,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[12][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 5 */
+	memcpy(temp_subkey,C5,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D5,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[11][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 6 */
+	memcpy(temp_subkey,C6,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D6,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[10][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 7 */
+	memcpy(temp_subkey,C7,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D7,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[9][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 8 */
+	memcpy(temp_subkey,C8,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D8,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[8][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 2 */
+	memcpy(temp_subkey,C9,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D9,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[7][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 10 */
+	memcpy(temp_subkey,C10,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D10,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[6][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 11 */
+	memcpy(temp_subkey,C11,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D11,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[5][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 12 */
+	memcpy(temp_subkey,C12,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D12,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[4][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 13 */
+	memcpy(temp_subkey,C13,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D13,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[3][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 2 */
+	memcpy(temp_subkey,C14,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D14,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[2][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 15 */
+	memcpy(temp_subkey,C15,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D15,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[1][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+	/* subkey 2 */
+	memcpy(temp_subkey,C16,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	memcpy(temp_subkey+SUB_KEY_PERMUTED_LENGTH,D16,SUB_KEY_PERMUTED_LENGTH*sizeof(int));
+	for(int i=0;i<SUB_KEY_LENGTH;i++)
+	{
+			sub_key[0][i]=temp_subkey[initial_key_permutaion2[i]-1];
+	}
+
+	printf("Final 16 Subkeys of Decryption: \n");
+	displayIntArray(sub_key[0],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[1],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[2],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[3],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[4],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[5],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[6],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[7],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[8],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[9],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[10],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[11],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[12],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[13],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[14],SUB_KEY_LENGTH);
+	displayIntArray(sub_key[15],SUB_KEY_LENGTH);
 }
 
 void rotate_array(int arr[],int n,int d){
