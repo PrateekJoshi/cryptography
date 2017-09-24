@@ -34,6 +34,10 @@ void getColumn(int data[],int *column);
 void getSBOX_value(int round,int row,int column,int *SBOX_value);
 void int_to_bin_digit(unsigned int in, int count, int* out,int *index);
 void XOR_function(int arr1[], int arr2[][SUB_DATA_BLOCK_LENGTH], int index, int result[][SUB_DATA_BLOCK_LENGTH],int index2);
+
+void DES_decrypt(int *cipher,int *key,int *data);
+void initial_permutation_key2(int key[]);
+
 //PC1
 int initial_key_permutaion[] = {57, 49,  41, 33,  25,  17,  9,
 							 1, 58,  50, 42,  34,  26, 18,
@@ -151,6 +155,10 @@ int main(int argc, char **argv) {
 	DES(message,key,cipher);
 	printf("DES encrypted message: \n");
 	displayIntArray(cipher,DATA_BLOCK_LENGTH);
+
+	DES_decrypt(cipher,key,message);
+	printf("DES decrypted message: \n");
+	displayIntArray(message,DATA_BLOCK_LENGTH);
 	return 0;
 }
 
@@ -174,6 +182,21 @@ void DES(int *data,int *key,int *cipher)
 
 }
 
+void DES_decrypt(int *cipher,int *key,int *data)
+{
+	/*Step 0: Create 16 subkeys, each of which is 48-bits long.*/
+	initial_permutation_key2(key);
+
+
+	/* Step 1: Apply a final permutation IP inverse */
+	apply_initial_message_permutation(cipher);
+
+	/*Step 2:Encrypt the permuted data block in 16 iteration with 16 subkeys*/
+	encypt_data_with_subkeys(cipher,data);
+
+	apply_final_message_permutation(data);
+
+}
 
 
 void displayIntArray(int *array, int size)
@@ -482,6 +505,37 @@ void initial_permutation_key(int key[]){
 	displayIntArray(sub_key[15],SUB_KEY_LENGTH);
 
 
+}
+
+void initial_permutation_key2(int key[]){
+	int temp_key[48]={0};
+	int start=0;
+	int end=15;
+	while(end >= start ){
+		memcpy(temp_key,sub_key[start],SUB_KEY_LENGTH*sizeof(int));
+		memcpy(sub_key[start],sub_key[end],SUB_KEY_LENGTH*sizeof(int));
+		memcpy(sub_key[end],temp_key,SUB_KEY_LENGTH*sizeof(int));
+		start++;
+		end--;
+	}
+
+	printf("Final 16 Subkeys For Decryption: \n");
+		displayIntArray(sub_key[0],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[1],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[2],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[3],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[4],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[5],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[6],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[7],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[8],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[9],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[10],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[11],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[12],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[13],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[14],SUB_KEY_LENGTH);
+		displayIntArray(sub_key[15],SUB_KEY_LENGTH);
 }
 
 void rotate_array(int arr[],int n,int d){
