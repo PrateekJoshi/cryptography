@@ -1,6 +1,6 @@
 # Cryptography
 
-This repo conatins implementation of cryptography concepts in C. This repo might be helpful for all the developers who wants to learn no t only the algorithm but also the bit by bit implementation of it.
+This repo conatins implementation of cryptography concepts in C. This repo might be helpful for all the developers who wants to learn not only the algorithm but also the bit by bit implementation of it.
 
 ## Table of contents:
 
@@ -17,5 +17,7 @@ This repo conatins implementation of cryptography concepts in C. This repo might
 - [Generate random bits in C](https://github.com/PrateekJoshi/cryptography/blob/master/random_no_gen/timer_bit.c)
   
 [3. Stream cipher ](https://github.com/PrateekJoshi/cryptography/tree/master/DES)
+
+**NOTE :** All algorithms and concepts implemented are for understanding purpose only. In case of production environment, use trusted crypto libraries like OpenSSL. 
   
   
